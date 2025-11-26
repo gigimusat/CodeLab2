@@ -12,16 +12,16 @@ int main() {
     //display items
     cout << "Welcome to the Vending Machine!" << endl;
     cout << "Available items:" << endl;
-    cout << "1. Soda - £1.25" << endl;
+    cout << "1. Water - £1.25" << endl;
     cout << "2. Chips - £1.00" << endl;
     cout << "3. Candy - £0.75" << endl;
 
     //user selects item
-    cout << "Please enter the item you want (Soda/Chips/Candy): ";
+    cout << "Please enter the item you want (Water/Chips/Candy): ";
     cin >> item;
 
     //set price based on item
-    if (item == "Soda") {
+    if (item == "Water") {
         price = 1.25;
     } else if (item == "Chips") {
         price = 1.00;
