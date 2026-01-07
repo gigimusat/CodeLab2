@@ -1,65 +1,107 @@
 #include <iostream>
-#include <string>
 using namespace std;
 
-// Vending machine program
+// Vending Machine Application
+// Developed as part of a C++ programming CodeLab
 int main()
 {
-    string product; // Variable to store selected product
-    int price = 0; // Variable to store product price
-    int money = 0; // Variable to store inserted money
+    int productCode; // Variable to store user input for product code
+    int price = 0; // Variable to store the price of the selected product
+    int money = 0; // Variable to store the amount of money inserted by the user
+    string product; // Variable to store the name of the selected product
+    char answer; // Variable to store user response for suggestions
+    bool continueShopping = true;
 
-    cout << "Welcome to the Vending Machine!" << endl; // Welcome message
-    cout << "Available products:" << endl; // Display available products
-    cout << "1. Cola - £2" << endl;
-    cout << "2. Biscuits - £1" << endl;
-    cout << "3. Coffee - £2" << endl;
-    cout << "4. Water - £1" << endl;
-    cout << "5. Chocolate - £2" << endl;
+    cout << "=================================\n";
+    cout << "   Welcome to the Vending Machine\n";
+    cout << "=================================\n\n";
 
-    cout << "\nPlease enter the product you want (Cola/Biscuits/Coffee/Water/Chocolate): "; // User input for product
-    cin >> product;
+    // Prompt user to insert money
+    cout << "Please insert money (£): ";
+    cin >> money;
 
-    if (product == "Cola") {
-        price = 2;
-    }
-    else if (product == "Biscuits") {
-        price = 1;
-    }
-    else if (product == "Coffee") {
-        price = 2;
-    }
-    else if (product == "Water") {
-        price = 1;
-    }
-    else if (product == "Chocolate") {
-        price = 2;
-    }
-    else {
-        cout << "Invalid product selected." << endl;
+    // Validate inserted money
+    if (money <= 0) {
+        cout << "Invalid amount entered. Program ending.\n";
         return 0;
     }
 
-    cout << "The price of " << product << " is £" << price << "." << endl; // Display price
-    cout << "Please enter the amount of money you are inserting: £"; // User input for money
-    cin >> money;
+    // Main shopping loop
+    while (continueShopping && money > 0) {
 
-    if (money < price) {
-        cout << "Insufficient funds. Transaction cancelled." << endl; // Insufficient funds handling
-    }
-    else {
-        int change = money - price;
-        cout << "Thank you for your purchase of " << product << "!" << endl; // Successful purchase message
+        // Display available products
+        cout << "\nAvailable products:\n";
+        cout << "1. Cola       - £2\n";
+        cout << "2. Biscuits   - £1\n";
+        cout << "3. Coffee     - £2\n";
+        cout << "4. Water      - £1\n";
+        cout << "5. Chocolate  - £2\n";
+        cout << "0. Finish and get change\n";
 
-        // Optional suggestion
+        cout << "\nEnter product code: ";
+        cin >> productCode;
+
+        // Check for finish code
+        if (productCode == 0) {
+            break;
+        }
+
+        // Determine selected product and price
+        if (productCode == 1) {
+            product = "Cola";
+            price = 2;
+        }
+        else if (productCode == 2) {
+            product = "Biscuits";
+            price = 1;
+        }
+        else if (productCode == 3) {
+            product = "Coffee";
+            price = 2;
+        }
+        else if (productCode == 4) {
+            product = "Water";
+            price = 1;
+        }
+        else if (productCode == 5) {
+            product = "Chocolate";
+            price = 2;
+        }
+        else {
+            cout << "Invalid product code. Please try again.\n"; // Input validation
+            continue;
+        }
+
+        // Check if user has enough money
+        if (money < price) {
+            cout << "Insufficient funds for this item.\n";
+            continue;
+        }
+
+        // Dispense product and deduct price
+        money -= price;
+        cout << product << " dispensed successfully.\n";
+
+        // Suggest Biscuits if Cola or Coffee was purchased
         if (product == "Cola" || product == "Coffee") {
-            cout << "Suggestion: Would you like to buy Biscuits with your " << product << "?" << endl; // Suggestion for complementary product
+            cout << "Would you like to buy Biscuits for £1? (Y/N): ";
+            cin >> answer;
+
+            if ((answer == 'Y' || answer == 'y') && money >= 1) {
+                money -= 1;
+                cout << "Biscuits dispensed.\n";
+            }
+            else if (answer == 'Y' || answer == 'y') {
+                cout << "Not enough money for Biscuits.\n";
+            }
         }
 
-        if (change > 0) {
-            cout << "Your change is £" << change << "." << endl; // Display change if any
-        }
+        cout << "Remaining balance: £" << money << endl; // Display remaining balance
     }
 
-    return 0; // End of program
+    // End of transaction
+    cout << "\nTransaction complete.\n";
+    cout << "Change returned: £" << money << endl;
+
+    return 0;
 }
